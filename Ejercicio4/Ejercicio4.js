@@ -23,21 +23,20 @@ class Pila {
 
   peek() {
     try {
-        if (this.isEmpty()) {
-            let ultimo = this.#data.length;
-            return this.#data[ultimo - 1];
-          } else {
-            throw "Error, la pila se encuentra vacia";
-          }
+      if (this.isEmpty()) {
+        let ultimo = this.#data.length;
+        return this.#data[ultimo - 1];
+      } else {
+        throw "Error, la pila se encuentra vacia";
+      }
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
-    
   }
 
   toString() {
     for (const item of this.#data) {
-        console.log(`${item}`);
+      console.log(`${item}`);
     }
   }
 
@@ -50,41 +49,47 @@ class Pila {
   }
 }
 
-
 class Contenedor {
-    static id = 0;
-    #id;
-    #nombreContenedor;
-    constructor(nombreContenedor){
-        this.#nombreContenedor= nombreContenedor;
-        this.#id = ++Contenedor.id;
-    }
+  static id = 0;
+  #id;
+  #nombreContenedor;
+  constructor(nombreContenedor) {
+    this.#nombreContenedor = nombreContenedor;
+    this.#id = ++Contenedor.id;
+  }
 
-    get getId(){
-        return this.#id;
-    }
+  get getId() {
+    return this.#id;
+  }
 
-    get getNombreContenedor(){
-        return this.#nombreContenedor;
-    }
-    set setNombreContenedor(nombre){
-        this.#nombreContenedor = nombre;
-    }
+  get getNombreContenedor() {
+    return this.#nombreContenedor;
+  }
+  set setNombreContenedor(nombre) {
+    this.#nombreContenedor = nombre;
+  }
 
-    toString(){
-        return `id: ${this.#id}\nNombre: ${this.#nombreContenedor}\n`;
-    }
+  toString() {
+    return `id: ${this.#id}\nNombre: ${this.#nombreContenedor}\n`;
+  }
 }
 
-function  retirarContenedor(pila, id){
+function retirarContenedor(pila, id) {
   const tmp = new Pila();
+  let eliminado = null;
   try {
     if (id < 1 || id > pila.getSize()) {
       throw "Error, ID de contenedor inexistente";
     } else {
-      while(pila.getSize() != id){
+      do {
         const item = pila.pop();
         tmp.push(item);
+      } while (pila.getSize() !== id);
+
+      eliminado = tmp.pop();
+
+      while(!tmp.isEmpty()){
+        pila.push(tmp.pop());
       }
     }
   } catch (e) {
@@ -106,3 +111,10 @@ almacen.toString();
 
 console.log("\n");
 
+
+//retirando contenedor
+retirarContenedor(almacen, 5);
+
+//imprimeindo pila final
+console.log("Pila final");
+almacen.toString();
